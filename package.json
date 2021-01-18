@@ -1,0 +1,28 @@
+{
+  "name": "discord-stats",
+  "version": "1.0.0",
+  "description": "A discord bot that provides statistics for discord servers",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenblues1190/Discord-Stats.git"
+  },
+  "author": "Jeongmin Woo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greenblues1190/Discord-Stats/issues"
+  },
+  "homepage": "https://github.com/greenblues1190/Discord-Stats#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "mongoose": "^5.11.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
