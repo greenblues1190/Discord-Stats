@@ -1,2 +1,4 @@
 # Discord-Stats
-A discord bot that provides statistics for Discord servers.
+메시지/멘션 통계, 채널 기여도 등 통계를 제공하는 디스코드 봇입니다.
+
+현재 서버: Clab

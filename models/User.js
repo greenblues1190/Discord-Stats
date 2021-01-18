@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { levelEnum } = require('../config/config');
 
 const userSchema = mongoose.Schema({
     id: {
@@ -14,10 +15,20 @@ const userSchema = mongoose.Schema({
         type: String
     },
     mentioned: {
-        type: Number
+        type: Number,
+        default: 0
     },
     messaged: {
-        type: Number
+        type: Number,
+        default: 0
+    },
+    xp: {
+        type: Number,
+        default: 0
+    },
+    level: {
+        type: Number,
+        default: 0 
     }
 })
 
