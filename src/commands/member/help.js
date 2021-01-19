@@ -17,7 +17,11 @@ const execute = async (client, message, args) => {
         `\n` +
         `:notepad_spiral: 마지막 업데이트\n` +
         `\n` +
-        `   2021.01.19`
+        `   2021.01.19 !award 그래픽 추가\n` +
+        `\n` +
+        `:coffee: 개발자에게 커피 한잔 사기\n` +
+        `\n` +
+        `   https://donaricano.com/mypage/1601550274_wuC9Hv`
     );
 }
 

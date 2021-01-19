@@ -128,7 +128,7 @@ client.on("message", async (message) => {
   /*  
    * 유저 정보가 없으면 저장
    */
-  await User.findOne({ id: message.author.id, guildId: message.channel.guild.id }, (err, user) => {
+  await User.findOne({ id: message.author.id, guildId: message.channel.guild.id }, async (err, user) => {
     if (!user) {
       const newUser = new User({
         id: message.author.id,
@@ -140,20 +140,29 @@ client.on("message", async (message) => {
         xp: 0,
         level: 0
       });
-      newUser.save((err, doc) => {
+      await newUser.save((err, doc) => {
         if (err) console.log(`Failed to save user ${message.author.username}!`)
         console.log(`new user ${message.author.username} saved`);
       });
+      if (!message.content.startsWith(COMMAND_PREFIX)) {
+        count(message);
+        return;
+      }
+    } else {
+      if (!message.content.startsWith(COMMAND_PREFIX)) {
+        count(message);
+        return;
+      }
     }
   })
 
   /*
    * 명령어 prefix로 시작하지 않으면 count() 후 리턴
    */
-  if (!message.content.startsWith(COMMAND_PREFIX)) {
-    count(message);
-    return;
-  }
+  // if (!message.content.startsWith(COMMAND_PREFIX)) {
+  //   count(message);
+  //   return;
+  // }
 
 
 
@@ -161,7 +170,7 @@ client.on("message", async (message) => {
    * bot channel일 경우 command 처리
    */
   if (!isBotChannel) return;
-  
+
   const commandBody = message.content.slice(COMMAND_PREFIX.length);
   const args = commandBody.split(' ');
   const command = args.shift().toLowerCase();

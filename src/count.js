@@ -41,7 +41,6 @@ const count = (message) => {
                 } else {
                     User.findOneAndUpdate({ id: mentionedUser.id, guildId: message.channel.guild.id }, { mentioned: user.mentioned + 1 }, (err, doc) => {
                         if (err) console.error(`Failed to update user mentioned time ${message.author.username}!`)
-                        // console.log(`${message.author.username}'s profile updated`);
                     });
                 }
             })

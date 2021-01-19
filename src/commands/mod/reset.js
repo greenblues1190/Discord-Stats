@@ -6,8 +6,8 @@ const execute = async (client, message, args) => {
             console.error(err);
             return;
         };
-        console.log(`All data of ${message.channel.guild.name} is deleted!`);
-        message.reply(`==> ${message.channel.guild.name}의 모든 데이터가 삭제되었습니다.`)
+        console.log(`==> All data of ${message.channel.guild.name} is deleted!`);
+        message.reply(`${message.channel.guild.name}의 모든 데이터가 삭제되었습니다.`)
     })
 }
 
