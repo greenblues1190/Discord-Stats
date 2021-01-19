@@ -5,9 +5,9 @@ const execute = async (client, message, args) => {
 
 module.exports = {
     name: 'ping',
-    alias: ['vld', 'botping'],
+    alias: ['vld', 'botping', '핑'],
     description: 'Ping!',
     use: '!ping',
-    auth: ['Needle (니들)'],
+    auth: ['Mods'],
     execute
 }

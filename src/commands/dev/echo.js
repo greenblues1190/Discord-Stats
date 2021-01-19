@@ -7,6 +7,6 @@ module.exports = {
     alias: ['e'],
     description: '에코 메세지',
     use: '!echo [text]',
-    auth: ['Needle (니들)'],
+    auth: null,
     execute
 }

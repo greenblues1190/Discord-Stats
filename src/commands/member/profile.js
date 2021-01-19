@@ -1,3 +1,5 @@
+const gm = require('gm');
+const Discord = require('discord.js');
 const { User } = require("../../../models/User");
 const { levelEnum, XP_ALIAS } = require("../../../config/config");
 const { timestampConvert } = require("../../util");
@@ -81,6 +83,6 @@ module.exports = {
     alias: ['프로필'],
     description: '유저 프로필',
     use: '!profile',
-    auth: ['Needle (니들)'],
+    auth: null,
     execute
 }

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const { levelEnum } = require('../config/config');
 
 const userSchema = mongoose.Schema({
     id: {
-        type: Number
+        type: Number,
+        unique: 1
     },
     username: {
         type: String

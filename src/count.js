@@ -16,20 +16,7 @@ const count = (message) => {
         })
 
         if (!user) {
-            const newUser = new User({
-                id: message.author.id,
-                username: message.author.username,
-                guildId: message.channel.guild.id,
-                guildName: message.channel.guild.name,
-                mentioned: 0,
-                messaged: 1,
-                xp: channelXP,
-                level: 0
-            });
-            newUser.save((err, doc) => {
-                if (err) console.log(`Failed to save user ${message.author.username}!`)
-                console.log(`new user ${message.author.username} saved`);
-            });
+            console.log("no user to update messaged!");
         } else {
             updateVariables = {
                 messaged: user.messaged + 1,
@@ -37,7 +24,6 @@ const count = (message) => {
             }
             User.findOneAndUpdate({ id: message.author.id, guildId: message.channel.guild.id }, updateVariables, (err, doc) => {
                 if (err) console.error(`Failed to update user message time ${message.author.username}!`)
-                // console.log(`${message.author.username}'s profile updated`);
             });
         }
     })
@@ -51,20 +37,7 @@ const count = (message) => {
 
             User.findOne({ id: mentionedUser.id, guildId: message.channel.guild.id }, (err, user) => {
                 if (!user) {
-                    const newUser = new User({
-                        id: message.author.id,
-                        username: message.author.username,
-                        guildId: message.channel.guild.id,
-                        guildName: message.channel.guild.name,
-                        mentioned: 1,
-                        messaged: 0,
-                        xp: 0,
-                        level: 0
-                    });
-                    newUser.save((err, doc) => {
-                        if (err) console.error(`Failed to save mentioned user ${message.author.username}!`)
-                        console.log(`new user ${message.author.username} saved`);
-                    });
+                    console.log("no user to update mentioned!");
                 } else {
                     User.findOneAndUpdate({ id: mentionedUser.id, guildId: message.channel.guild.id }, { mentioned: user.mentioned + 1 }, (err, doc) => {
                         if (err) console.error(`Failed to update user mentioned time ${message.author.username}!`)
