@@ -8,7 +8,6 @@
 
 const { MONGO_URI, BOT_TOKEN } = require('./config/key');
 const { COMMAND_PREFIX, BOT_CHANNEL } = require('./config/config');
-const { saveUser } = require('./src/saveUser');
 const { count } = require('./src/count');
 const { timestampConvert } = require('./src/util');
 const { getUserRole } = require('./src/user');
