@@ -23,7 +23,7 @@ const count = (message) => {
                 xp: user.xp + channelXP
             }
             User.findOneAndUpdate({ id: message.author.id, guildId: message.channel.guild.id }, updateVariables, (err, doc) => {
-                if (err) console.error(`Failed to update user message time ${message.author.username}!`)
+                if (err) console.error(`Failed to update user message time ${message.author.username}!`, err)
             });
         }
     })
@@ -40,7 +40,7 @@ const count = (message) => {
                     console.log("no user to update mentioned!");
                 } else {
                     User.findOneAndUpdate({ id: mentionedUser.id, guildId: message.channel.guild.id }, { mentioned: user.mentioned + 1 }, (err, doc) => {
-                        if (err) console.error(`Failed to update user mentioned time ${message.author.username}!`)
+                        if (err) console.error(`Failed to update user mentioned time ${message.author.username}!`, err)
                     });
                 }
             })

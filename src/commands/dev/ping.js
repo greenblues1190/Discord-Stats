@@ -8,6 +8,6 @@ module.exports = {
     alias: ['vld', 'botping', '핑'],
     description: 'Ping!',
     use: '!ping',
-    auth: ['Mods'],
+    auth: ['Mods', 'mod'],
     execute
 }

@@ -29,25 +29,11 @@ const levelEnum = Object.freeze({
 
 module.exports = {
 	COMMAND_PREFIX: "!",
+	CHANNEL_OPTION_PREFIX: "--",
+	BOT_OPTION: "bot",
+	XP_OPTION: "xp",
 	levelEnum,
 	XP_ALIAS: "기여도",
-	BOT_CHANNEL: [
-		{
-			id: 800768869005525034,
-			name: "secret-dubu-level",
-			server: CLAB
-		},
-		{
-			id: 800814579427835974,
-			name: "bot-playground",
-			server: HIDDEN_LIME
-		},
-		{
-			id: 800668079213903923,
-			name: "bot",
-			server: MY_SERVER
-		}
-	],
 	XP_CHANNEL: [
 		{
 			id: 579373774919696404,

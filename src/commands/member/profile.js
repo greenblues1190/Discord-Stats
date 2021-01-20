@@ -33,7 +33,7 @@ const profileForm = (profile) => {
 
     let roletext = "";
     profile.role.forEach(role => {
-        roletext += `"${role.name}"`;
+        roletext += `"${role}"`;
         roletext += " ";
     })
 
@@ -60,7 +60,6 @@ const execute = async (client, message, args) => {
             }
             
             let userRole = getUserRole(message);
-
             const profile = profileForm({
                 username: user.username,
                 xp: user.xp,

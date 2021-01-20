@@ -7,9 +7,9 @@
 
 
 const { MONGO_URI, BOT_TOKEN } = require('./config/key');
-const { COMMAND_PREFIX, BOT_CHANNEL } = require('./config/config');
+const { COMMAND_PREFIX, CHANNEL_OPTION_PREFIX, BOT_OPTION } = require('./config/config');
 const { count } = require('./src/count');
-const { timestampConvert } = require('./src/util');
+const { timestampConvert, doesAHaveSetB } = require('./src/util');
 const { getUserRole } = require('./src/user');
 const { User } = require('./models/User');
 
@@ -58,15 +58,6 @@ fs.readdirSync("./src/commands/").forEach(dir => { // fs 모듈을 이용하여 
 })
 console.log("==> Commands loaded...")
 
-
-
-
-
-
-
-
-
-
 /********************************************
  *              command handler             *
  ********************************************/
@@ -75,30 +66,22 @@ console.log("==> Commands loaded...")
  * 커맨드 실행 권한이 있으면 true 아니면 false
  */
 function isAuth(command, message) {
-  let flag = false;
   const userRole = getUserRole(message);
-  // console.log(command.auth);
-  if (command.auth == null) {
+  let flag = false
+  if (command.auth == null ||
+    doesAHaveSetB(command.auth, userRole)) {
     return true;
   }
-  command.auth.some(auth => {
-    userRole.some(role => {
-      if (auth === role.name) {
-        flag = true;
-        return true;
-      }
-    })
-  })
-
-  return flag;
+  return false;
 }
 
-/* 
+/*
  * 명령어 실행 함수
  */
 function runCommand(command, message, args) {
   if (client.commands.get(command) || client.alias.get(command)) {
     const cmd = client.commands.get(command) || client.commands.get(client.alias.get(command))
+
     if (cmd && isAuth(cmd, message)) cmd.execute(client, message, args);
     else message.reply(`잘못된 커맨드 혹은 권한이 없습니다. (${cmd.name}의 권한: ${cmd.auth})`);
     return;
@@ -106,13 +89,22 @@ function runCommand(command, message, args) {
 }
 
 /* 
- * bot이 메시지를 보낼 수 있는 채널이면 true 아니면 false
+ * 메시지가 온 채널의 옵션을 반환
  */
-function isBotChannel(message) {
-  BOT_CHANNEL.some(channel => {
-    if (message.channel.id != channel.id) return true;
-  })
-  return false;
+function getChannelOption(message) {
+  let optionSet = new Set();
+  channelTopic = message.channel.topic;
+  if (channelTopic) {
+    const parsedWithSpace = channelTopic.split(/\r\n|\r|\n| /);
+    parsedWithSpace.forEach(parsedWithSpace => {
+      if (!parsedWithSpace.startsWith(CHANNEL_OPTION_PREFIX)) {
+        return;
+      }
+      const option = parsedWithSpace.slice(CHANNEL_OPTION_PREFIX.length);
+      optionSet.add(option);
+    })
+  }
+  return optionSet;
 }
 
 /* 
@@ -122,7 +114,7 @@ client.on("message", async (message) => {
   if (!message.guild) return;
   if (message.author.bot) return;
 
-  console.log(`${message.channel.guild.name}(${message.channel.guild.id})>>${message.channel.parentID}>>${message.channel.name}(${message.channel.id})`);
+  // console.log(`${message.channel.guild.name}(${message.channel.guild.id})>>${message.channel.parentID}>>${message.channel.name}(${message.channel.id})`);
   console.log(`@${timestampConvert(message.createdTimestamp)}, [${message.channel.guild.name}] > [${message.channel.name}] ${message.author.username}: "${message.content}"`);
 
   /*  
@@ -141,35 +133,28 @@ client.on("message", async (message) => {
         level: 0
       });
       await newUser.save((err, doc) => {
-        if (err) console.log(`Failed to save user ${message.author.username}!`)
+        if (err) console.log(`Failed to save user ${message.author.username}!`, err)
         console.log(`new user ${message.author.username} saved`);
       });
-      if (!message.content.startsWith(COMMAND_PREFIX)) {
-        count(message);
-        return;
-      }
-    } else {
-      if (!message.content.startsWith(COMMAND_PREFIX)) {
-        count(message);
-        return;
-      }
     }
+    count(message);
   })
-
   /*
    * 명령어 prefix로 시작하지 않으면 count() 후 리턴
    */
-  // if (!message.content.startsWith(COMMAND_PREFIX)) {
-  //   count(message);
-  //   return;
-  // }
+  if (!message.content.startsWith(COMMAND_PREFIX) || message.content === COMMAND_PREFIX) {
+    return;
+  }
 
 
 
   /* 
    * bot channel일 경우 command 처리
    */
-  if (!isBotChannel) return;
+  if (!getChannelOption(message).has(BOT_OPTION)) {
+    // message.reply(`저는 ${CHANNEL_OPTION_PREFIX}${BOT_OPTION} 옵션이 있는 채널에서만 말할 수 있어요.`)
+    return;
+  }
 
   const commandBody = message.content.slice(COMMAND_PREFIX.length);
   const args = commandBody.split(' ');
